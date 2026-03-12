@@ -3,10 +3,6 @@ const path = require('path')
 
 dotenv.config({path: path.resolve(__dirname,'../../.env')});
 
-const config = {
-    port : process.env.PORT || 5000 , 
-    node_env : process.env.NODE_ENV,
-}
 const dbconfig = {
     host : process.env.DB_HOST,
     port :process.env.DB_PORT,
@@ -14,4 +10,5 @@ const dbconfig = {
     password : process.env.DB_PASSWORD , 
     database : process.env.DB_NAME 
 }
-module.exports = {config ,dbconfig};
+
+module.exports = {dbconfig};
