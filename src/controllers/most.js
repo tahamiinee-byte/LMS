@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const pool = require(path.resolve(__dirname,'../config/dbcon.js'))
+const {pool} = require(path.resolve(__dirname,'../config/dbcon.js'))
 
 const getUserInfo = async (req,res)=>{
     const result = await pool.query(

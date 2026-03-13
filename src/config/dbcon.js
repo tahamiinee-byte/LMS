@@ -1,7 +1,8 @@
-const {pool} = require('pg')
+const {Pool} = require('pg')
+const path = require('path')
 const {dbconfig} = require(path.resolve(__dirname,'config.js'))
 
-const pool = new pool(dbconfig)
+const pool = new Pool(dbconfig)
 
 pool.connect()
 .then(()=>console.log('database connected'))
