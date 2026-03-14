@@ -7,7 +7,7 @@ router.route('/').get((req,res)=>{
     res.sendFile(path.resolve(__dirname,'../../public/login.html'))
 })
 
-router.route('/student_interface').get((req,res)=>{
+router.route('/dashboard').get((req,res)=>{
     res.sendFile(path.resolve(__dirname,'../../public/dashboard.html'))
 })
 

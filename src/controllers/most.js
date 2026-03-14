@@ -5,7 +5,7 @@ const {pool} = require(path.resolve(__dirname,'../config/dbcon.js'))
 const getUserInfo = async (req,res)=>{
     const result = await pool.query(
         'select firstname,lastname from person where id = $1',
-        [req.session.userID]
+        [req.session.UserId]
     )
     res.json(result.rows[0])
 }
