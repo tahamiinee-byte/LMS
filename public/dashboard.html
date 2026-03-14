@@ -532,10 +532,14 @@
         if (!res.ok) throw new Error('Network response was not ok');
         const data = await res.json();
 
-        // Support both { name: "..." } and array [{ name: "..." }]
         const user = Array.isArray(data) ? data[0] : data;
-        const name = user?.name || user?.username || user?.full_name || 'Student';
 
+        // Use firstname and lastname
+        const firstname = user?.firstname || '';
+        const lastname = user?.lastname || '';
+        const name = `${firstname} ${lastname}`.trim() || 'Student';
+
+        // Set greeting
         const nameEl = document.getElementById('userName');
         nameEl.textContent = name;
         nameEl.classList.remove('loading');
