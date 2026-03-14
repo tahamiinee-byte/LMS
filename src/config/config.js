@@ -15,7 +15,6 @@ const dbconfig = {
     database : process.env.DB_NAME 
 }
 
-
 const sessionConfig = {
     secret : process.env.SECRET
 }

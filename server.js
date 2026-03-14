@@ -1,6 +1,8 @@
 const path = require('path')
 const app = require(path.resolve(__dirname, 'src/app.js'))
+const {config} = require(path.resolve(__dirname , "src/config/config.js"))
 
-app.listen(5000, ()=>{
-    console.log(`server runnning on ${5000}`)
+const port = config.port ; 
+app.listen(port, ()=>{
+    console.log(`server runnning on ${port}`)
 })
