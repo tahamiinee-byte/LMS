@@ -278,12 +278,17 @@ h1 {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: id, password: password })
     });
+    if(response.ok){
+      window.location.href = 'dashboard.html'
+    }
+    else {
+      alert('Invalid ID or password')
+    }
   }
-
-  function handleLogin() {
+  async function handleLogin() {
     const id = document.getElementById('ID').value;
     const password = document.getElementById('password').value;
-    getData(id, password);
+    await getData(id, password);
     const btn = document.getElementById('loginBtn');
     btn.classList.add('loading');
     btn.disabled = true;

@@ -15,9 +15,8 @@ app.use(session({
     saveUninitialized :false 
 }))
 
-const loginRoute = require(path.resolve(__dirname , "./routes/routes.js"))
+const root = require(path.resolve(__dirname , "./routes/routes.js"))
 
-app.use('/login' ,loginRoute);
-
+app.use('/' ,root);
 module.exports = app 
 
