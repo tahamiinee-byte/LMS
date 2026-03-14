@@ -11,4 +11,11 @@ const dbconfig = {
     database : process.env.DB_NAME 
 }
 
+<<<<<<< HEAD
 module.exports = {dbconfig};
+=======
+const sessionConfig = {
+    secret : process.env.SECRET
+}
+module.exports = {config ,dbconfig, sessionConfig};
+>>>>>>> 283d5ba (Creating a session)

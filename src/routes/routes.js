@@ -4,5 +4,6 @@ const CheckingLoginCredential = require('../controllers/loginController.js')
 
 
 router.route('/').post(CheckingLoginCredential)
+router.route('/dashboard')
 
 module.exports = router
