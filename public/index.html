@@ -229,37 +229,36 @@ h1 {
   </div>
 
   <!-- Fields -->
-  <div class="field">
-    <label for="ID">ID</label>
-    <input type="text" id="ID" placeholder="Enter your ID">
-  </div>
+  <form method="POST" action ="/login">
+    <div class="field">
+      <label for="ID">ID</label>
+      <input type="text" id="ID" name ="id" placeholder="Enter your ID">
+    </div>
 
-  <div class="field">
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="••••••••" class="has-toggle">
-    <button class="toggle" onclick="togglePass(this)" aria-label="Show password">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-      </svg>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name = "password" placeholder="••••••••" class="has-toggle">
+      <button type ="button" class="toggle" onclick="togglePass(this)" aria-label="Show password">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="row">
+      <label class="check-label">
+        <input type="checkbox" id="remember">
+        <span class="check-box"></span>
+        Remember me
+      </label>
+      <a href="#" class="forgot">Forgot password?</a>
+    </div>
+
+    <button class="btn" id="loginBtn" type ="submit" >
+      <span class="btn-text">Sign In</span>
+      <div class="spinner"></div>
     </button>
-  </div>
-
-  <div class="row">
-    <label class="check-label">
-      <input type="checkbox" id="remember">
-      <span class="check-box"></span>
-      Remember me
-    </label>
-    <a href="#" class="forgot">Forgot password?</a>
-  </div>
-
-  <button class="btn" id="loginBtn" onclick="handleLogin()">
-    <span class="btn-text">Sign In</span>
-    <div class="spinner"></div>
-  </button>
-
-  <p class="divider">Don't have an account? <a href="#">Create one</a></p>
-
+  </form>
 </div>
 
 <script>
@@ -272,32 +271,39 @@ h1 {
       : '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/>';
   }
 
-  async function getData(id, password) {
-    const response = await fetch(`/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: id, password: password })
-    });
-    if(response.ok){
-      window.location.href = 'dashboard.html'
-    }
-    else {
-      alert('Invalid ID or password')
-    }
-  }
-  async function handleLogin() {
-    const id = document.getElementById('ID').value;
-    const password = document.getElementById('password').value;
-    await getData(id, password);
+  /*async function handleLogin() {
     const btn = document.getElementById('loginBtn');
     btn.classList.add('loading');
     btn.disabled = true;
-    setTimeout(() => {
+
+    const id = document.getElementById('ID').value;
+    const password = document.getElementById('password').value;
+
+    try{
+      const response = await fetch("/login" , {
+        method  : "POST" ,
+        headers : {"Content-Type": "application/json"} ,
+        body : JSON.stringify({
+          id : id , 
+          password : password
+        })
+      });
+      if (response.ok){
+          window.location.href = 'dashboard.html'
+      }
+      else {
+          alert("Invalid ID or password")
+          btn.classList.remove('loading');
+          btn.disabled = false;
+      }
+    
+
+    }catch (err){
+      alert('Network error');
       btn.classList.remove('loading');
-      //btn.classList.add('success');
-      btn.querySelector('.btn-text').textContent = 'Sign In';
-    }, 1800);
-  }
+      btn.disabled = false;
+    }
+  }*/
 </script>
 </body>
 </html>
