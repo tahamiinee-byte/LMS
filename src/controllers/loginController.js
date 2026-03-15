@@ -14,15 +14,15 @@ const CheckingLoginCredential = async (req , res)=>{
     if (PasswordDb === password){
         req.session.UserID = id 
         req.session.Type = resultQuery.rows[0].person_type 
-        res.redirect('/dashboard')
+        res.redirect('/home')
     }
     else {
         return res.redirect('/');
     }
 }
 
-const GetDashboardPage =(req,res)=>{
-    res.sendFile(path.resolve(__dirname , "../../public/dashboard.html"))
+const GetHomePage =(req,res)=>{
+    res.sendFile(path.resolve(__dirname , "../../public/home.html"))
 }
 
-module.exports= {CheckingLoginCredential , GetDashboardPage} 
+module.exports= {CheckingLoginCredential , GetHomePage} 

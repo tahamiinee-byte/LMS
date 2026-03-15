@@ -17,9 +17,9 @@ app.use(session({
 }))
 
 const root = require(path.resolve(__dirname , "./routes/routes.js"))
-//const API = require(path.resolve(__dirname , "./routes/API.js"))
+const API = require(path.resolve(__dirname , "./routes/API.js"))
 
 app.use('/' ,root);
-// app.use('/api' , )
+app.use('/api', API)
 module.exports = app 
 
