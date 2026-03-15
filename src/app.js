@@ -14,8 +14,7 @@ app.use(session({
 }))
 
 app.use('/',routes)
-app.use('/dashboard',routes)
-app.use('api/users',routes)
+
 
 module.exports = app 
 
