@@ -8,4 +8,4 @@ pool.connect()
 .then(()=>console.log('database connected'))
 .catch(err=>console.error('this happened',err))
 
-module.exports = pool
+module.exports = {pool}

@@ -14,7 +14,7 @@ app.use(session({
 }))
 
 app.use('/',routes)
-app.use('/student_interface',routes)
+app.use('/dashboard',routes)
 app.use('api/users',routes)
 
 module.exports = app 
