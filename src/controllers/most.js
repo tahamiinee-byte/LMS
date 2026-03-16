@@ -1,15 +1,6 @@
-const express = require('express')
+
 const path = require('path')
 const {pool} = require(path.resolve(__dirname,'../config/dbcon.js'))
-
-const getUserInfo = async (req,res)=>{
-    const result = await pool.query(
-        'select firstname,lastname from person where id = $1',
-        [req.session.UserID]
-    )
-    const user = result.rows[0]
-    res.status(200).json(user)
-}
 
 const CheckingLoginCredential = async (req, res) => {
     const { id, password } = req.body;
@@ -31,4 +22,4 @@ const CheckingLoginCredential = async (req, res) => {
     }
 }
 
-module.exports = { getUserInfo, CheckingLoginCredential }
+module.exports = { CheckingLoginCredential }

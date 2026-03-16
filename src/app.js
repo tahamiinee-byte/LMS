@@ -2,6 +2,7 @@ const express = require('express')
 const path = require("path")
 const app = express() 
 const routes = require(path.resolve(__dirname,'routes/most.js'))
+const api_routes = require(path.resolve(__dirname,'routes/api.js'))
 const session = require('express-session')
 
 app.use(express.urlencoded({ extended: true }))
@@ -14,6 +15,7 @@ app.use(session({
 }))
 
 app.use('/',routes)
+app.use('/api',api_routes)
 
 
 module.exports = app 
