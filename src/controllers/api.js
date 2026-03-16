@@ -11,19 +11,20 @@ const getUserInfo = async (req, res) => {
 }
 
 const getUserModules = async (req, res) => {
-    console.log('hi', req.session.UserID, req.session.Type)
     if (req.session.Type === 'student') {
         const semester = await pool.query('select semester from student where id = $1', [req.session.UserID]);
-        console.log(semester.rows[0].semester)
-
         const result = await pool.query(
             'select module_name from (module_semester ms join module m on ms.module_id = m.module_id ) where ms.semester = $1',
             [semester.rows[0].semester]
         );
-        console.log(result.rows)
         res.status(200).json(result.rows);
     }
     else if (req.session.Type === 'Teacher') console.log('Not set yet')
 }
 
-module.exports = {getUserInfo , getUserModules}
+const getModule = (req,res) => {
+    const Name = req.params.name
+    res.redirect(`/modules/${Name}`)
+}
+
+module.exports = {getUserInfo , getUserModules , getModule}
