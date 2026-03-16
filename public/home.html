@@ -415,83 +415,82 @@
     }
 
     function buildCard(mod, index) {
-      const themeIndex = (typeof mod.theme === 'number') ? mod.theme % THEMES.length : index % THEMES.length;
-      const t = THEMES[themeIndex];
+    const themeIndex = (typeof mod.theme === 'number') ? mod.theme % THEMES.length : index % THEMES.length;
+    const t = THEMES[themeIndex];
 
-      const name       = mod.module_name || mod.name || mod.title || 'Module';
-      const description = mod.description || mod.desc || '';
-      const progress   = Math.min(100, Math.max(0, Number(mod.progress ?? mod.completion ?? 0)));
-      const lessons    = mod.lessons ?? mod.lesson_count ?? mod.lessonCount ?? null;
-      const href       = mod.href ?? mod.url ?? mod.link ?? '#';
-      const iconPath   = mod.iconPath || getIconPath(name);
+    const name       = mod.module_name || mod.name || mod.title || 'Module';
+    const description = mod.description || mod.desc || '';
+    const progress   = Math.min(100, Math.max(0, Number(mod.progress ?? mod.completion ?? 0)));
+    const lessons    = mod.lessons ?? mod.lesson_count ?? mod.lessonCount ?? null;
+    const href       = `/api/modules/${encodeURIComponent(name)}`; // form action
+    const iconPath   = mod.iconPath || getIconPath(name);
 
-      const card = document.createElement('a');
-      card.href = href;
-      card.className = 'module';
+    // Create a form instead of <a>
+    const form = document.createElement('form');
+    form.action = href;
+    form.method = 'GET'; // or 'GET' if your API expects GET
+    form.className = 'module';
+    form.style.cssText = [
+      `--accent:${t.accent}`,
+      `--accent-dim:${t.accentDim}`,
+      `--band-bg:${t.bandBg}`,
+      `--band-pattern:${t.bandPattern}`,
+      `--title-color:${t.titleColor}`,
+      `--icon-bg:${t.iconBg}`,
+      `--icon-border:${t.iconBorder}`,
+      `--icon-shadow:${t.iconShadow}`,
+      `--border-hover:${t.borderHover}`,
+      `--shadow-hover:${t.shadowHover}`,
+      `--prog:${progress}%`,
+    ].join(';');
 
-      const vars = [
-        `--accent:${t.accent}`,
-        `--accent-dim:${t.accentDim}`,
-        `--band-bg:${t.bandBg}`,
-        `--band-pattern:${t.bandPattern}`,
-        `--title-color:${t.titleColor}`,
-        `--icon-bg:${t.iconBg}`,
-        `--icon-border:${t.iconBorder}`,
-        `--icon-shadow:${t.iconShadow}`,
-        `--border-hover:${t.borderHover}`,
-        `--shadow-hover:${t.shadowHover}`,
-        `--prog:${progress}%`,
-      ].join(';');
-      card.setAttribute('style', vars);
-
-      card.innerHTML = `
-        <div class="module-band">
-          <div class="module-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                 stroke="${t.iconStroke}" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round">
-              ${iconPath}
-            </svg>
-          </div>
-          <span class="band-title">${escHtml(name)}</span>
+    form.innerHTML = `
+      <div class="module-band">
+        <div class="module-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="${t.iconStroke}" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+            ${iconPath}
+          </svg>
         </div>
-        <div class="module-body">
-          <div class="progress-track">
-            <div class="progress-fill"></div>
-          </div>
-          ${description ? `<p class="module-desc">${escHtml(description)}</p>` : ''}
-          <div class="module-footer">
-            <div class="module-meta">
-              ${lessons != null ? `
-              <span class="meta-pill">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2"/>
-                  <line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                ${Number(lessons)} lesson${Number(lessons) !== 1 ? 's' : ''}
-              </span>` : ''}
-              <span class="meta-pill">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-                ${progress}% done
-              </span>
-            </div>
-            <span class="module-cta">
-              Open
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
+        <span class="band-title">${escHtml(name)}</span>
+      </div>
+      <div class="module-body">
+        <div class="progress-track">
+          <div class="progress-fill"></div>
+        </div>
+        ${description ? `<p class="module-desc">${escHtml(description)}</p>` : ''}
+        <div class="module-footer">
+          <div class="module-meta">
+            ${lessons != null ? `
+            <span class="meta-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
+              ${Number(lessons)} lesson${Number(lessons) !== 1 ? 's' : ''}
+            </span>` : ''}
+            <span class="meta-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              ${progress}% done
             </span>
           </div>
+          <button type="submit" class="module-cta">
+            Open
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
         </div>
-      `;
-      return card;
+      </div>
+    `;
+    return form;
     }
-
     function escHtml(str) {
       return String(str)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
