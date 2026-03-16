@@ -25,4 +25,5 @@ const GetHomePage =(req,res)=>{
     res.sendFile(path.resolve(__dirname , "../../public/home.html"))
 }
 
+
 module.exports= {CheckingLoginCredential , GetHomePage} 

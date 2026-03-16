@@ -29,4 +29,9 @@ const getStudentModule = async (req,res)=>{
     
  
 }
-module.exports = {getUserInfo,getStudentModule}   
+const getModuleAPI = (req,res)=>{
+    const module_name= req.params.module_name;
+    res.status(200).redirect(`/module/${module_name}`);
+}
+
+module.exports = {getUserInfo,getStudentModule , getModuleAPI}   
