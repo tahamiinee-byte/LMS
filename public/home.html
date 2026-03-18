@@ -305,7 +305,7 @@
           <polyline points="2 12 12 17 22 12"/>
         </svg>
       </div>
-      <span class="logo-name">Académie</span>
+      <span class="logo-name">NSCShub</span>
     </a>
     <div class="nav-user">
       <div class="greeting">
@@ -422,7 +422,7 @@
   const description = mod.description || mod.desc || '';
   const progress   = Math.min(100, Math.max(0, Number(mod.progress ?? mod.completion ?? 0)));
   const lessons    = mod.lessons ?? mod.lesson_count ?? mod.lessonCount ?? null;
-  const href       = `/api/module/${encodeURIComponent(name)}`; // form action
+  const href       = `/module/${encodeURIComponent(name)}`; // form action
   const iconPath   = mod.iconPath || getIconPath(name);
 
   // Create a form

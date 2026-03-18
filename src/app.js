@@ -18,8 +18,11 @@ app.use(session({
 
 const root = require(path.resolve(__dirname , "./routes/routes.js"))
 const API = require(path.resolve(__dirname , "./routes/API.js"))
+const Module = require(path.resolve(__dirname , "./routes/module.js"))
+
 
 app.use('/' ,root);
 app.use('/api', API)
+app.use('/module', Module)
 module.exports = app 
 

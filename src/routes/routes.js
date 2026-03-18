@@ -10,9 +10,4 @@ router.route('/login').post(CheckingLoginCredential)
 router.get('/home',requireAuth,GetHomePage)
 
 
-router.get('/module/:module_name',requireAuth,(req,res) => {
-    res.sendFile(path.resolve(__dirname,'../../public/modules.html'))
-    }
-)
-
 module.exports = router
