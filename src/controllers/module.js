@@ -20,11 +20,15 @@ const getModuleData = (req,res) => {
     })
 }
 const downloadData = (req,res)=>{
-    console.log('Here I am ')
-    const {module_name, type , fileName} = req.params.module_name
+    const {module_name, type , fileName} = req.params
     const filepath = path.join(__dirname ,`../../modules/${module_name}/${type}/${fileName}`)
     res.download(filepath ,(err) =>{
         if (err) res.status(404).send(`${fileName} Not found`)
     })
 }
-module.exports = {getModuleData,downloadData}
+const SeeData = (req,res)=>{
+    const {module_name, type , fileName} = req.params
+    const filepath = path.join(__dirname ,`../../modules/${module_name}/${type}/${fileName}`)
+    res.status(200).sendFile(filepath);
+}
+module.exports = {getModuleData,downloadData ,SeeData}
