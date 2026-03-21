@@ -65,12 +65,13 @@
             gap: 20px;
             align-items: flex-start;
             margin-left: 15px;
+            margin-bottom: 40px;
             
         }
 
         /* 1. Sidebar (Increased Size) */
         .sidebar {
-            width: 220px; /* Increased from 220px */
+            width: 200px; /* Increased from 220px */
             flex-shrink: 0;
             margin-right: 20px;
         }
@@ -128,7 +129,7 @@
 
         /* 2. Middle Empty Box */
         .middle-content {
-            flex-grow: 1; 
+            flex-grow: 3; 
             display: flex;
             flex-direction: column;
             align-items: stretch;   /* important */
@@ -139,6 +140,11 @@
             padding: 15px;
             background: #fff;
             
+        }
+        .middle-content iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
         }
         .file-row {
             display: flex;
@@ -179,7 +185,7 @@
 
         /* 3. Info Panel (Right) */
         .info-panel {
-            width: 300px;
+            width: 270px;
             flex-shrink: 0;
             background: #fff;
             padding: 25px;
@@ -264,7 +270,7 @@
     <script> 
 
        function getLastUrlSegment() {
-            const parts = window.location.pathname.split('/').filter(Boolean).pop();
+            const parts = window.location.pathname.split('/').filter(Boolean)[1];
             return parts;
         }
 
@@ -276,7 +282,7 @@
 
         const raw = getLastUrlSegment();
         const formatted = formatModuleName(raw);
-
+        console.log(raw)
         const titleEl = document.getElementById('module_title');
         const nameEl = document.getElementById('module_name');
 
@@ -286,54 +292,89 @@
         const sidebarItems = ['Lecture','TD' ,'TP', 'Exams','Resources','GroupInfo']
         const ul = document.getElementById('sidebar-list')
 
-        sidebarItems.forEach(item =>{
+        function getFiles(raw, item, fileName) {
+            const middle = document.querySelector('.middle-content');
+
+            const fileDiv = document.createElement('div');
+            fileDiv.classList.add('file-row');
+
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = `/module/${raw}/${item}/${encodeURIComponent(fileName)}`;
+
+            const viewBtn = document.createElement('button');
+            viewBtn.type = 'submit';
+            viewBtn.textContent = fileName.trim();
+            viewBtn.style.flexGrow = '1';
+
+            form.appendChild(viewBtn);
+
+            const downloadBtn = document.createElement('a');
+            downloadBtn.textContent = 'Download';
+            // This PATH is not right I need to change it but not now 
+            downloadBtn.href = `/module/${raw}/${item}/${encodeURIComponent(fileName)}/download`;
+            downloadBtn.download = fileName;
+
+            fileDiv.appendChild(form);
+            fileDiv.appendChild(downloadBtn);
+
+            middle.appendChild(fileDiv);
+        }
+
+
+
+        // This STATIC 
+        sidebarItems.forEach(item => {
             const li = document.createElement('li');
+
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = `/module/${raw}/${item}`;
+
             const button = document.createElement('button');
-            button.type = 'button';
+            button.type = 'submit';
             button.textContent = item;
-            button.addEventListener('click', async () =>{
-                try{
-                    const response = await fetch(`/module/api/${raw}/${item}`)
-                    if(!response.ok)throw new Error("Failed to fetch");
-                    const data = await response.json();
-                    const middle = document.querySelector('.middle-content')
-                    middle.innerHTML ='';
-                    data.forEach(fileName => {
-                        const fileDiv = document.createElement('div');
-                        fileDiv.classList.add('file-row')
-                        
 
-                        // "View" or "Fetch" button
-                        const viewBtn = document.createElement('button');
-                        viewBtn.textContent = fileName.trim();
-                        viewBtn.style.flexGrow = '1';
-                        viewBtn.addEventListener('click', () => {
-                            console.log(`Fetching content of ${fileName}`);
-                        });
-
-                        const downloadBtn = document.createElement('a');
-                        downloadBtn.textContent = 'Download';
-                        downloadBtn.href = `/module/api/download/${raw}/${item}/${fileName}`;
-                        downloadBtn.download = fileName; // tells browser to download
-                        
-
-                        fileDiv.appendChild(viewBtn);
-                        fileDiv.appendChild(downloadBtn);
-
-                        middle.appendChild(fileDiv);
-                    });
-
-                }catch(err){
-                    console.log('There is a problme : '+ err )
-                }
-            })
-            li.appendChild(button)
-            ul.appendChild(li)
-        })
-        
-
-  
+            form.appendChild(button);
+            li.appendChild(form);
+            ul.appendChild(li);
+        });
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    const moduleName = parts[1];
+    async function check(){
+        if (parts.length === 3 ){
+            const type = parts[2];
+            try{
+                const response = await fetch(`/api/modules/${moduleName}/${type}`);
+                if (!response.ok) throw new Error("Failed to fetch");
+                const fileNames = await response.json()
+                const middle = document.querySelector('.middle-content')
+                middle.innerHTML= '';
+                fileNames.forEach(fileName => {
+                    getFiles(moduleName, type, fileName);
+                });
+            }catch(err) {
+                    console.log('There is a Problem' + err )
+            }
+        }
+        else if (parts.length === 4 ) {
+            const type = parts[2]
+            const fileName = parts[3];
+            const middle = document.querySelector('.middle-content')
+            middle.innerHTML= '';
+                    document.querySelector('.middle-content').innerHTML = `
+                        <iframe 
+                        src="/api/modules/${moduleName}/${type}/${encodeURIComponent(fileName)}/See#toolbar=0&navpanes=0&scrollbar=0" 
+                        style="width:100%; height:600px; border:none;">
+                    </iframe>
+            `
+        }
+        else {
+            const middle = document.querySelector('.middle-content')
+            middle.innerHTML= '';
+        }
+    }
+    check()
     </script>
-
 </body>
 </html> 

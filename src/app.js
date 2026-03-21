@@ -16,12 +16,12 @@ app.use(session({
     saveUninitialized :false 
 }))
 
-const root = require(path.resolve(__dirname , "./routes/routes.js"))
+const Auth = require(path.resolve(__dirname , "./routes/auth.js"))
 const API = require(path.resolve(__dirname , "./routes/API.js"))
 const Module = require(path.resolve(__dirname , "./routes/module.js"))
 
 
-app.use('/' ,root);
+app.use('/' ,Auth);
 app.use('/api', API)
 app.use('/module', Module)
 module.exports = app 
