@@ -1,13 +1,15 @@
 const express = require('express')
-const path = require("path")
 const requireAuth = require('../middleware/middleware.js')
-
-
 const router = express.Router();
-const {getUserInfo,getStudentModule}  = require(path.resolve(__dirname,'../controllers/APIcontroller.js'))
+
+const getUserInfo = require('../controllers/APIcontroller.js')
+const {getModuleData,SeeData} = require('../controllers/module.js')
+
+router.use(requireAuth)
 
 
-router.route('/users',requireAuth).get(getUserInfo)
-router.route('/modules',requireAuth).get(getStudentModule)
+router.get('/users',getUserInfo)
+router.get('/modules/:module_name/:type/:fileName/See',SeeData)
+router.get('/modules/:module_name/:type',getModuleData)
 
 module.exports = router
