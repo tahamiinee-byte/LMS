@@ -2,26 +2,37 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Module Portal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module – NSCShub</title>
     <style>
-        /* --- General Setup --- */
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-            color: #333;
-            background-color: #fcfcfc;
+            padding: 0;
         }
 
-        /* Increased container width for a "wider" feel */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
+        :root {
+            --bg: #f5f5f3;
+            --surface: #ffffff;
+            --primary: #005580;
+            --primary-d: #004466;
+            --text: #1a1a1a;
+            --muted: #777;
+            --border: #e0e0e0;
         }
 
-        /* --- Header / Top Nav --- */
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+        /* ── Top Nav ── */
         .top-nav {
             background-color: #1a1a1a;
             color: #fff;
@@ -32,126 +43,275 @@
         }
 
         .portal-logo {
-            font-size: 1.2rem;
-            font-weight: bold;
-            letter-spacing: 0.5px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        /* --- Blue Module Banner (Made larger/wider) --- */
+        .nav-back {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover {
+            color: #fff;
+        }
+
+        /* ── Banner ── */
         .module-banner {
-            background-color: #005580;
-            color: white;
-            padding: 60px 0;
-            /* Increased padding for more "size" */
-            border-bottom: 5px solid #004466;
+            background-color: var(--primary);
+            color: #fff;
+            padding: 55px 0;
+            border-bottom: 5px solid var(--primary-d);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .module-banner .breadcrumb {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            opacity: 0.75;
+            margin-bottom: 10px;
         }
 
         .module-banner h1 {
-            margin: 0;
-            font-size: 2rem;
-            /* Larger font size */
-            font-weight: 100;
+            font-size: 1.9rem;
+            font-weight: 300;
         }
 
-        .breadcrumb {
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            opacity: 0.8;
-        }
-
-        /* --- Three-Column Layout --- */
+        /* ── Three-Column Layout ── */
         .main-layout {
             display: flex;
-            margin-top: 40px;
-            gap: 35px;
+            gap: 0;
+            margin: 25px auto 50px;
+            max-width: 1400px;
+            padding: 0 40px;
             align-items: flex-start;
         }
 
-        /* 1. Sidebar (Increased Size) */
+        /* ── Sidebar ── */
         .sidebar {
-            width: 280px;
-            /* Increased from 220px */
+            width: 200px;
             flex-shrink: 0;
+            margin-right: 25px;
         }
 
         .sidebar ul {
             list-style: none;
             padding: 0;
-            margin: 0;
         }
 
         .sidebar ul li {
-            border-bottom: 1px solid #e6e6e6;
+            border-bottom: 1px solid var(--border);
         }
 
-        .sidebar ul li a {
+        .sidebar ul li button {
             display: block;
-            padding: 18px 15px;
-            /* Larger padding for links */
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 16px 14px;
             color: #444;
-            text-decoration: none;
+            font-family: 'IBM Plex Sans', sans-serif;
             font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.2s ease;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .sidebar ul li a:hover {
+        .sidebar ul li button:hover {
             background-color: #f0f7ff;
-            color: #005580;
-            padding-left: 25px;
-            /* Subtle hover slide effect */
+            color: var(--primary);
+            padding-left: 22px;
         }
 
-        /* 2. Middle Empty Box */
+        .sidebar ul li button.active {
+            background-color: #f0f7ff;
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            padding-left: 19px;
+        }
+
+        /* ── Middle Content ── */
         .middle-content {
-            flex-grow: 1;
-            min-height: 500px;
-            background: #fff;
-            border: 2px dashed #d1d1d1;
-            border-radius: 8px;
+            flex: 1;
             display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            background: var(--surface);
+            min-height: 200px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #aaa;
-            font-style: italic;
+            padding: 60px 20px;
+            color: var(--muted);
+            font-size: 0.95rem;
+            gap: 8px;
         }
 
-        /* 3. Info Panel (Right) */
-        .info-panel {
-            width: 320px;
-            flex-shrink: 0;
-            background: #fff;
-            padding: 25px;
-            border: 1px solid #e0e0e0;
+        .empty-state .icon {
+            font-size: 2rem;
+        }
+
+        /* File rows */
+        .file-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: #f7f7f7;
+            border: 1px solid var(--border);
             border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: background 0.15s;
+        }
+
+        .file-row:hover {
+            background: #eef5fb;
+        }
+
+        .view-btn {
+            flex: 1;
+            text-align: left;
+            background: none;
+            border: none;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.97rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .view-btn:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .download-btn {
+            text-decoration: none;
+            padding: 6px 14px;
+            background-color: var(--primary);
+            color: #fff;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background-color 0.2s;
+            margin-left: 12px;
+        }
+
+        .download-btn:hover {
+            background-color: var(--primary-d);
+        }
+
+        /* Back button (shown when viewing a file) */
+        .back-btn {
+            align-self: flex-start;
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 7px 14px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.88rem;
+            color: var(--primary);
+            cursor: pointer;
+            margin-bottom: 4px;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #f0f7ff;
+        }
+
+        /* PDF Viewer */
+        .pdf-viewer {
+            width: 100%;
+            height: 620px;
+            border: none;
+            border-radius: 4px;
+            display: block;
+        }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #ebebeb 25%, #f5f5f5 50%, #ebebeb 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.3s infinite;
+            border-radius: 4px;
+            height: 44px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Error */
+        .status-msg.error {
+            padding: 20px;
+            text-align: center;
+            color: #c0392b;
+            font-size: 0.9rem;
+        }
+
+        /* ── Info Panel ── */
+        .info-panel {
+            width: 260px;
+            flex-shrink: 0;
+            background: var(--surface);
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+            margin-left: 25px;
         }
 
         .info-section h3 {
-            font-size: 1.2rem;
+            font-size: 1.05rem;
+            font-weight: 600;
             margin-top: 0;
             padding-bottom: 10px;
-            border-bottom: 3px solid #005580;
-            color: #222;
-            margin-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+            color: var(--text);
+            margin-bottom: 14px;
         }
 
         .info-section p {
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 0.93rem;
+            line-height: 1.65;
             color: #555;
         }
 
-        .instructor-list {
-            margin-top: 30px;
+        .info-section+.info-section {
+            margin-top: 28px;
         }
 
         .instructor-name {
             display: block;
-            font-size: 1rem;
-            color: #005580;
+            font-size: 0.95rem;
+            color: var(--primary);
             margin-bottom: 8px;
             text-decoration: none;
             font-weight: 500;
@@ -167,42 +327,38 @@
 
     <header class="top-nav">
         <div class="portal-logo">NSCShub</div>
+        <a class="nav-back" href="/dashboard">← Back to Dashboard</a>
     </header>
 
     <section class="module-banner">
         <div class="container">
-            <!-- CORRECT: id is an attribute, not literal text -->
-            <h1 id="module-title"></h1>
+            <div class="breadcrumb" id="breadcrumb">Modules</div>
+            <h1 id="module-title">Loading…</h1>
         </div>
     </section>
 
     <main class="container main-layout">
 
         <aside class="sidebar">
-            <ul>
-                <li><a href="#">Lecture</a></li>
-                <li><a href="#">TD</a></li>
-                <li><a href="#">TP</a></li>
-                <li><a href="#">Exams</a></li>
-                <li><a href="#">Resources</a></li>
-                <li><a href="#">Group Info</a></li>
-            </ul>
+            <ul id="sidebar-list"></ul>
         </aside>
 
-        <section class="middle-content">
-            <p>[ Main Content Area ]</p>
+        <section class="middle-content" id="middle-content">
+            <div class="empty-state">
+                <span class="icon">📂</span>
+                <span>Select a section from the left to view resources.</span>
+            </div>
         </section>
 
         <aside class="info-panel">
             <div class="info-section">
                 <h3>Module Description</h3>
                 <p>
-                    This section provides the syllabus, learning outcomes, and core concepts for
-                    <strong id="module-name"></strong>.
+                    Syllabus, learning outcomes, and core resources for
+                    <strong id="module-name-desc"></strong>.
                 </p>
             </div>
-
-            <div class="info-section instructor-list">
+            <div class="info-section">
                 <h3>Instructors</h3>
                 <a href="#" class="instructor-name">Dr. Jane Smith</a>
                 <a href="#" class="instructor-name">Prof. John Doe</a>
@@ -212,30 +368,162 @@
     </main>
 
     <script>
-        // get last non-empty URL segment:
-        function getLastUrlSegment() {
-            const parts = window.location.pathname.split('/').filter(Boolean);
-            return parts.length ? parts[parts.length - 1] : '';
+        /*
+         * ROUTE SUMMARY (from app.js):
+         *
+         * pages.js  @ '/'   → /modules/:name  and  /modules/:name/:type  (serve module.html)
+         * api.js    @ '/api' → /api/modules/:name/:type                   (JSON: file list)
+         * files.js  @ '/'   → /modules/:name/:type/:filename/see          (serve file)
+         *                    → /modules/:name/:type/:filename/download     (download file)
+         *
+         * No page route exists for /modules/:name/:type/:filename,
+         * so file viewing is rendered IN-PLACE — no navigation occurs.
+         */
+
+        const parts = window.location.pathname.split('/').filter(Boolean);
+        // parts: ['modules', moduleName, ?type]
+        const moduleName = parts[1] || '';
+        const activeType = parts[2] || null;
+
+        /* ── Helpers ── */
+        function formatLabel(raw) {
+            if (!raw) return '';
+            return decodeURIComponent(raw)
+                .replace(/[+_-]+/g, ' ')
+                .trim()
+                .split(' ')
+                .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(' ');
         }
 
-        function formatModuleName(raw) {
-            if (!raw) return 'Module';
-            // decode URL-encoded parts and replace -, _, + with spaces
-            const decoded = decodeURIComponent(raw).replace(/[+_-]+/g, ' ').trim();
-            // Title-case each word
-            return decoded.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        function setBreadcrumb(type, file) {
+            const base = `Modules / ${formatLabel(moduleName)}`;
+            if (file) {
+                document.getElementById('breadcrumb').textContent =
+                    `${base} / ${formatLabel(type)} / ${decodeURIComponent(file)}`;
+            } else if (type) {
+                document.getElementById('breadcrumb').textContent =
+                    `${base} / ${formatLabel(type)}`;
+            } else {
+                document.getElementById('breadcrumb').textContent = base;
+            }
         }
 
-        const raw = getLastUrlSegment();
-        const formatted = formatModuleName(raw);
+        /* ── Set page titles ── */
+        const formatted = formatLabel(moduleName);
+        document.getElementById('module-title').textContent = formatted;
+        document.getElementById('module-name-desc').textContent = formatted;
+        document.title = `${formatted} – NSCShub`;
+        setBreadcrumb(activeType, null);
 
-        const titleEl = document.getElementById('module-title');
-        const nameEl = document.getElementById('module-name');
+        /* ── Build sidebar ── */
+        const SIDEBAR_ITEMS = ['course', 'TD', 'TP', 'Exams', 'Resources', 'GroupInfo'];
+        const ul = document.getElementById('sidebar-list');
 
-        if (titleEl) titleEl.textContent = formatted;
-        if (nameEl) nameEl.textContent = formatted;
+        SIDEBAR_ITEMS.forEach(item => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = item;
+            if (activeType === item) btn.classList.add('active');
+
+            btn.addEventListener('click', () => {
+                ul.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // Update URL to keep it bookmarkable, without a full page reload
+                history.pushState(null, '', `/modules/${encodeURIComponent(moduleName)}/${item}`);
+                setBreadcrumb(item, null);
+                loadFileList(item);
+            });
+
+            li.appendChild(btn);
+            ul.appendChild(li);
+        });
+
+        /* ── Middle content ── */
+        const middle = document.getElementById('middle-content');
+
+        function showLoading() {
+            middle.innerHTML = `
+                <div class="skeleton"></div>
+                <div class="skeleton" style="opacity:.7"></div>
+                <div class="skeleton" style="opacity:.4"></div>`;
+        }
+
+        function showError(msg) {
+            middle.innerHTML = `<p class="status-msg error">${msg}</p>`;
+        }
+
+        function loadFileList(type) {
+            showLoading();
+            // GET /api/modules/:name/:type  → returns JSON array of filenames
+            fetch(`/api/modules/${encodeURIComponent(moduleName)}/${type}`)
+                .then(res => {
+                    if (!res.ok) throw new Error(`${res.status}`);
+                    return res.json();
+                })
+                .then(fileNames => {
+                    middle.innerHTML = '';
+
+                    if (!fileNames.length) {
+                        middle.innerHTML = `
+                            <div class="empty-state">
+                                <span class="icon">🗂️</span>
+                                <span>No files found in this section.</span>
+                            </div>`;
+                        return;
+                    }
+
+                    fileNames.forEach(fileName => {
+                        const row = document.createElement('div');
+                        row.classList.add('file-row');
+
+                        // Clicking view renders the iframe in-place (no page navigation)
+                        const viewBtn = document.createElement('button');
+                        viewBtn.className = 'view-btn';
+                        viewBtn.textContent = fileName;
+                        viewBtn.addEventListener('click', () => renderViewer(type, fileName));
+
+                        // GET /modules/:name/:type/:filename/download  (files.js @ '/')
+                        const dlBtn = document.createElement('a');
+                        dlBtn.className = 'download-btn';
+                        dlBtn.textContent = 'Download';
+                        dlBtn.href = `/modules/${encodeURIComponent(moduleName)}/${type}/${encodeURIComponent(fileName)}/download`;
+
+                        row.appendChild(viewBtn);
+                        row.appendChild(dlBtn);
+                        middle.appendChild(row);
+                    });
+                })
+                .catch(err => showError(`Failed to load files (${err.message}). Please try again.`));
+        }
+
+        function renderViewer(type, fileName) {
+            middle.innerHTML = '';
+            setBreadcrumb(type, fileName);
+
+            const backBtn = document.createElement('button');
+            backBtn.className = 'back-btn';
+            backBtn.textContent = `← Back to ${formatLabel(type)}`;
+            backBtn.addEventListener('click', () => {
+                setBreadcrumb(type, null);
+                loadFileList(type);
+            });
+
+            // GET /modules/:name/:type/:filename/see  (files.js @ '/')
+            const iframe = document.createElement('iframe');
+            iframe.className = 'pdf-viewer';
+            iframe.src = `/modules/${encodeURIComponent(moduleName)}/${type}/${encodeURIComponent(fileName)}/see#toolbar=0&navpanes=0&scrollbar=0`;
+
+            middle.appendChild(backBtn);
+            middle.appendChild(iframe);
+        }
+
+        /* ── Initial load ── */
+        if (activeType) {
+            loadFileList(activeType);
+        }
     </script>
-
 </body>
 
 </html>

@@ -22,9 +22,22 @@ const getUserModules = async (req, res) => {
     else if (req.session.Type === 'Teacher') console.log('Not set yet')
 }
 
-const getModule = (req,res) => {
-    const Name = req.params.name
-    res.redirect(`/modules/${Name}`)
+const getFiles = async (req,res) => {
+    const {name , type} = req.params
+
+    const result = await pool.query(`
+        select title from 
+        resources r join module m
+        on r.module_id = m.module_id
+        where m.module_name = $1 
+        and r.type = $2
+    ` , [name,type])
+
+    if(!result.rowCount){
+        return res.sendStatus(404)
+    }
+
+    res.json(result.rows.map(r=>r.title))
 }
 
-module.exports = {getUserInfo , getUserModules , getModule}
+module.exports = {getUserInfo , getUserModules , getFiles}
