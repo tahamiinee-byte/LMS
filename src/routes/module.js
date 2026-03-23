@@ -8,7 +8,14 @@ const {downloadData} = require('../controllers/module.js')
 router.use(requireAuth)
 
 const template = (req ,res) => { 
-    res.sendFile(path.resolve(__dirname,'../../public/modules.html'))
+   
+    const Type = req.session.Type
+    if (Type === 'student'){
+        res.sendFile(path.resolve(__dirname,'../../public/modules.html'));
+    }
+    else if (Type=== 'teacher'){
+        res.sendFile(path.resolve(__dirname,'../../public/teacherModule.html'))
+    }
 }
 
 router.get('/:module_name/:type/:fileName/download', downloadData)
