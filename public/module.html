@@ -511,7 +511,6 @@
                         viewBtn.className = 'view-btn';
                         viewBtn.textContent = fileName;
                         viewBtn.addEventListener('click', () => renderViewer(type, fileName));
-                        //viewBtn.href = `/modules/${encodeURIComponent(moduleName)}/${type}/${encodeURIComponent(fileName)}`;
 
                         // GET /modules/:name/:type/:filename/download  (files.js @ '/')
                         const dlBtn = document.createElement('a');
@@ -535,20 +534,10 @@
             middle.innerHTML = '';
             setBreadcrumb(type, fileName);
 
-            // const backBtn = document.createElement('button');
-            // backBtn.className = 'back-btn';
-            // backBtn.textContent = `← Back to ${formatLabel(type)}`;
-            // backBtn.addEventListener('click', () => {
-            //     setBreadcrumb(type, null);
-            //     loadFileList(type);
-            // });
-
-            // GET /modules/:name/:type/:filename/see  (files.js @ '/')
             const iframe = document.createElement('iframe');
             iframe.className = 'pdf-viewer';
             iframe.src = `/modules/${encodeURIComponent(moduleName)}/${type}/${encodeURIComponent(fileName)}/see#toolbar=0&navpanes=0&scrollbar=0`;
 
-            //middle.appendChild(backBtn);
             middle.appendChild(iframe);
         }
 

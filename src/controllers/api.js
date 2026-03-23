@@ -16,10 +16,18 @@ const getUserModules = async (req, res) => {
         const result = await pool.query(
             'select module_name from (module_semester ms join module m on ms.module_id = m.module_id ) where ms.semester = $1',
             [semester.rows[0].semester]
-        );
+        )
         res.status(200).json(result.rows);
     }
-    else if (req.session.Type === 'Teacher') console.log('Not set yet')
+    else if (req.session.Type === 'professor'){
+        const result = await pool.query(`
+            select m.module_name 
+            from module m join teacher_group_module tgm
+            on m.module_id = tgm.module_id
+            where tgm.id = $1     
+        `,[req.session.UserID])
+        res.status(200).json(result.rows)
+    }
 }
 
 const getFiles = async (req,res) => {
@@ -40,4 +48,11 @@ const getFiles = async (req,res) => {
     res.json(result.rows.map(r=>r.title))
 }
 
-module.exports = {getUserInfo , getUserModules , getFiles}
+const SubmitFiles = async (req,res)=>{
+    
+
+
+
+}
+
+module.exports = { getUserInfo, getUserModules, getFiles, SubmitFiles }
