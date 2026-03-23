@@ -440,6 +440,34 @@
             ul.appendChild(li);
         });
 
+        /* ── Handle browser back / forward ── */
+        window.addEventListener('popstate', () => {
+            const p = window.location.pathname.split('/').filter(Boolean);
+            const type = p[2] || null;          // e.g. 'TD', 'TP', …
+            const filename = p[3] || null;
+
+            // Sync the active state in the sidebar
+            ul.querySelectorAll('button').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === type);
+            });
+            if (filename) {
+                setBreadcrumb(type,filename);
+                renderViewer(type, decodeURIComponent(filename) , true);
+            } else if (type) {
+                setBreadcrumb(type, null);
+                loadFileList(type);
+            } else {
+                // Landed back on /modules/:name with no type selected
+                setBreadcrumb(null, null);
+                middle.innerHTML = `
+                    <div class="empty-state">
+                        <span class="icon">📂</span>
+                        <span>Select a section from the left to view resources.</span>
+                    </div>`;
+            }
+        });
+            
+
         /* ── Middle content ── */
         const middle = document.getElementById('middle-content');
 
@@ -483,6 +511,7 @@
                         viewBtn.className = 'view-btn';
                         viewBtn.textContent = fileName;
                         viewBtn.addEventListener('click', () => renderViewer(type, fileName));
+                        //viewBtn.href = `/modules/${encodeURIComponent(moduleName)}/${type}/${encodeURIComponent(fileName)}`;
 
                         // GET /modules/:name/:type/:filename/download  (files.js @ '/')
                         const dlBtn = document.createElement('a');
@@ -498,24 +527,28 @@
                 .catch(err => showError(`Failed to load files (${err.message}). Please try again.`));
         }
 
-        function renderViewer(type, fileName) {
+        function renderViewer(type, fileName , skipPush = false) {
+            if (!skipPush) {
+                history.pushState(null, '', `/modules/${encodeURIComponent(moduleName)}/${type}/${encodeURIComponent(fileName)}`);
+            }
+
             middle.innerHTML = '';
             setBreadcrumb(type, fileName);
 
-            const backBtn = document.createElement('button');
-            backBtn.className = 'back-btn';
-            backBtn.textContent = `← Back to ${formatLabel(type)}`;
-            backBtn.addEventListener('click', () => {
-                setBreadcrumb(type, null);
-                loadFileList(type);
-            });
+            // const backBtn = document.createElement('button');
+            // backBtn.className = 'back-btn';
+            // backBtn.textContent = `← Back to ${formatLabel(type)}`;
+            // backBtn.addEventListener('click', () => {
+            //     setBreadcrumb(type, null);
+            //     loadFileList(type);
+            // });
 
             // GET /modules/:name/:type/:filename/see  (files.js @ '/')
             const iframe = document.createElement('iframe');
             iframe.className = 'pdf-viewer';
             iframe.src = `/modules/${encodeURIComponent(moduleName)}/${type}/${encodeURIComponent(fileName)}/see#toolbar=0&navpanes=0&scrollbar=0`;
 
-            middle.appendChild(backBtn);
+            //middle.appendChild(backBtn);
             middle.appendChild(iframe);
         }
 
