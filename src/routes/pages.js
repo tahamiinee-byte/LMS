@@ -20,8 +20,4 @@ router.route('/modules/:name/:type').get(requireAuth , (req,res)=>{
     res.sendFile(path.resolve(__dirname,'../../public/module.html'))
 })
 
-router.route('/modules/:name/:type/:filename').get(requireAuth, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../public/module.html'))
-})
-
 module.exports = router 
