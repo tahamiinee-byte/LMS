@@ -626,10 +626,10 @@
                         <label>File Type *</label>
                         <select id="file-type">
                             <option value="" disabled selected>Select a type</option>
-                            <option value="lecture">Lecture</option>
-                            <option value="td">TD</option>
-                            <option value="tp">TP</option>
-                            <option value="exam">Exam</option>
+                            <option value="course">Course</option>
+                            <option value="TD">TD</option>
+                            <option value="TP">TP</option>
+                            <option value="Exams">Exam</option>
                             <option value="solution">Solution</option>
                             <option value="other">Other</option>
                         </select>
@@ -658,7 +658,7 @@
                             <div class="chips-wrap" id="file-chips-wrap"
                                 onclick="document.getElementById('file-group-input').focus()">
                                 <input class="chip-input" id="file-group-input"
-                                    placeholder="Type a group code, press Enter or Space…" maxlength="5"
+                                    placeholder="Type a group code, press Enter or Space…" maxlength="3"
                                     onkeydown="handleChipKey(event,'file')"
                                     oninput="this.value=this.value.toUpperCase()" />
                             </div>
